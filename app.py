@@ -2,7 +2,7 @@ import streamlit as st
 import replicate
 import os
 
-# Secrets-dən tokeni təhlükəsiz oxuyuruq
+# Secrets-dən tokeni oxuyuruq
 if "REPLICATE_API_TOKEN" in st.secrets:
     os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 else:
@@ -13,7 +13,7 @@ st.set_page_config(page_title="TFTML AI - Ultra HD", page_icon="🚀")
 st.title("🚀 TFTML AI - Ultra HD Enhancer")
 st.write("Şəkli yükləyin və 4K nəticəni dərhal görün!")
 
-uploaded_file = st.file_uploader("Şəkil seçin...", type=["jpg", "png", "jpeg"])
+uploaded_file = st.file_uploader("Fayl seçin...", type=["jpg", "png", "jpeg"])
 
 if uploaded_file:
     st.image(uploaded_file, caption="Orijinal Şəkil", use_container_width=True)
@@ -21,8 +21,7 @@ if uploaded_file:
     if st.button("Keyfiyyəti Artır ✨"):
         with st.spinner("Süni intellekt emal edir..."):
             try:
-                # BU HİSSƏ VACİBDİR: Ən stabil və rəsmi model
-                # 422 xətası verməyən versiya budur
+                # 422 xətasının qəti həlli üçün ən stabil versiya kodu:
                 output = replicate.run(
                     "nightmareai/real-esrgan:42fed1c4974141d04715c6970bb2c1125604b2c380f9abc094b6d53153406f2e",
                     input={
@@ -37,5 +36,4 @@ if uploaded_file:
                     st.success("Hazırdır!")
                     st.markdown(f"### [📥 Şəkli Yüklə]({output})")
             except Exception as e:
-                # Xətanı daha aydın görmək üçün detalı yazırıq
                 st.error(f"Texniki problem: {e}")
