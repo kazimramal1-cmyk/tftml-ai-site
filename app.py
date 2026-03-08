@@ -2,7 +2,7 @@ import streamlit as st
 import replicate
 import os
 
-# Secrets-dən tokeni oxuyuruq
+# Secrets-dən tokeni təhlükəsiz oxuyuruq
 if "REPLICATE_API_TOKEN" in st.secrets:
     os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 else:
@@ -19,14 +19,13 @@ if uploaded_file:
     st.image(uploaded_file, caption="Orijinal Şəkil", use_container_width=True)
     
     if st.button("Keyfiyyəti Artır ✨"):
-        with st.spinner("Süni intellekt (Swin2SR) işləyir..."):
+        with st.spinner("Süni intellekt (ScuNet) işləyir..."):
             try:
-                # Hal-hazırda aktiv və stabil olan Swin2SR modeli
+                # 422 xətasından qaçmaq üçün ən stabil ScuNet modeli
                 output = replicate.run(
-                    "mv-lab/swin2sr:2aa643288591f4639915f0fa3c193237e19da3690d56c8f85f524c965b93d07f",
+                    "cszn/scunet:64f33cc865773173da252033605a9144a1e941f1ca9cc16b714f3b7f637f6a79",
                     input={
-                        "image": uploaded_file,
-                        "task": "real_sr_x4"
+                        "image": uploaded_file
                     }
                 )
                 
@@ -36,3 +35,4 @@ if uploaded_file:
                     st.markdown(f"### [📥 Şəkli Yüklə]({output})")
             except Exception as e:
                 st.error(f"Xəta baş verdi: {e}")
+                
