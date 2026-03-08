@@ -35,4 +35,3 @@ if uploaded_file:
                     st.markdown(f"### [📥 Şəkli Yüklə]({output})")
             except Exception as e:
                 st.error(f"Xəta baş verdi: {e}")
-                
