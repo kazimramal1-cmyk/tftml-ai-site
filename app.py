@@ -19,9 +19,9 @@ if uploaded_file:
     st.image(uploaded_file, caption="Orijinal Şəkil", use_container_width=True)
     
     if st.button("Keyfiyyəti Artır ✨"):
-        with st.spinner("Süni intellekt (SwinIR) işləyir..."):
+        with st.spinner("Süni intellekt (Swin2SR) işləyir..."):
             try:
-                # 422 xətasından qaçmaq üçün yeni və aktiv SwinIR modeli
+                # Hal-hazırda aktiv və stabil olan Swin2SR modeli
                 output = replicate.run(
                     "mv-lab/swin2sr:2aa643288591f4639915f0fa3c193237e19da3690d56c8f85f524c965b93d07f",
                     input={
