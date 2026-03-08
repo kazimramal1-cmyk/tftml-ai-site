@@ -2,33 +2,31 @@ import streamlit as st
 import replicate
 import os
 
-# Secrets-dən tokeni təhlükəsiz oxuyuruq
+# Secrets-dən tokeni oxuyuruq
 if "REPLICATE_API_TOKEN" in st.secrets:
     os.environ["REPLICATE_API_TOKEN"] = st.secrets["REPLICATE_API_TOKEN"]
 else:
-    st.error("Zəhmət olmasa Secrets hissəsinə tokeni əlavə edin.")
+    st.error("API Token tapılmadı. Secrets hissəsini yoxlayın.")
 
 st.set_page_config(page_title="TFTML AI - Ultra HD", page_icon="🚀")
 
 st.title("🚀 TFTML AI - Ultra HD Enhancer")
-st.write("Şəkli yükləyin və 4K keyfiyyətini saniyələr içində əldə edin.")
+st.write("Şəkli yükləyin və süni intellektlə keyfiyyəti artırın.")
 
-uploaded_file = st.file_uploader("Bir şəkil seçin...", type=["jpg", "png", "jpeg"])
+uploaded_file = st.file_uploader("Şəkil seçin...", type=["jpg", "png", "jpeg"])
 
 if uploaded_file:
     st.image(uploaded_file, caption="Orijinal Şəkil", use_container_width=True)
     
     if st.button("Keyfiyyəti Artır ✨"):
-        with st.spinner("Süni intellekt şəkli emal edir..."):
+        with st.spinner("Süni intellekt (SwinIR) işləyir..."):
             try:
-                # Alternativ və ən stabil model (Swapper/Upscaler)
-                # Bu model 422 xətası vermədən şəkli bərpa edir
+                # 422 xətasından qaçmaq üçün yeni və aktiv SwinIR modeli
                 output = replicate.run(
-                    "cjwbw/real-esrgan:d0ee34f7723908991a0397554988005b4588e1e779836336332155f9c98a5840",
+                    "mv-lab/swin2sr:2aa643288591f4639915f0fa3c193237e19da3690d56c8f85f524c965b93d07f",
                     input={
                         "image": uploaded_file,
-                        "upscale": 2,
-                        "face_enhance": True
+                        "task": "real_sr_x4"
                     }
                 )
                 
